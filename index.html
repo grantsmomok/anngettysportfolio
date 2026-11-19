@@ -1,0 +1,347 @@
+<title>Ann Gettys Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: a single scrolling portfolio with a sticky section nav; letterhead teal carries the identity */
+:root{
+  --bg:#f6f8f8; --surface:#ffffff; --fg:#1d2a2c; --muted:#5a6b6e; --line:#d6e0e1;
+  --accent:#2a7a87; --accent-2:#39a4b7; --chip:#e6f1f2;
+  --display:"Source Serif 4", Cambria, Georgia, serif;
+  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111a1c; --surface:#182427; --fg:#e4eded; --muted:#9db0b3; --line:#2a3a3d;
+  --accent:#6cc3d1; --accent-2:#4fb3c5; --chip:#1f3236; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111a1c; --surface:#182427; --fg:#e4eded; --muted:#9db0b3; --line:#2a3a3d;
+  --accent:#6cc3d1; --accent-2:#4fb3c5; --chip:#1f3236; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:17px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;line-height:1.2;margin:0}
+h2{font-size:2rem;color:var(--accent)}
+h3{font-size:1.25rem}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* header */
+header.top{background:var(--surface);border-bottom:3px solid var(--accent-2)}
+header.top .wrap{padding-block:40px 28px;display:grid;gap:10px}
+header.top .name-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+header.top .btn.btn-cv{font-size:1.1rem;padding:10px 22px;background:var(--accent);color:var(--surface)}
+header.top .btn.btn-cv:hover{filter:brightness(1.1)}
+header.top h1{font-size:clamp(2.4rem,6vw,3.4rem);color:var(--accent);font-weight:400}
+.role{color:var(--muted);font-size:1.05rem}
+.intro{font-size:1.15rem;max-width:62ch}
+.contact{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:.95rem}
+.contact code{font-family:var(--body);background:var(--chip);padding:4px 10px;border-radius:6px;user-select:all}
+.btn{font:600 .9rem var(--body);border:1px solid var(--accent);background:transparent;color:var(--accent);padding:6px 12px;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--chip)}
+
+nav.sections{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.sections .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+nav.sections a{white-space:nowrap;text-decoration:none;color:var(--fg);font-weight:600;font-size:.95rem;padding:6px 12px;border-radius:6px}
+nav.sections a:hover,nav.sections a[aria-current="true"]{background:var(--chip);color:var(--accent)}
+
+section{padding-block:56px 8px;scroll-margin-top:60px}
+section > .wrap{display:grid;gap:28px}
+section#philosophy{padding-block:24px 0}
+section#research{padding-top:28px}
+.lead{color:var(--muted);font-size:1.05rem}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.grid.two{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.item .body{padding:16px 18px 18px;display:grid;gap:6px;align-content:start}
+.item p{font-size:.95rem;color:var(--muted)}
+.item .meta{font-size:.8rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.thumb{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--chip);border:0;padding:0;cursor:zoom-in}
+button.thumbbtn{border:0;padding:0;background:none;cursor:zoom-in;display:block;width:100%}
+.thumb.page{object-fit:cover;object-position:top}
+video,audio{width:100%;display:block}
+video{background:#000;aspect-ratio:1/1}
+.item audio{margin-top:6px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.strip figure{margin:0;display:grid;gap:4px}
+.strip figcaption{font-size:.8rem;color:var(--muted)}
+.strip .thumb{aspect-ratio:1/1}
+
+.split{display:grid;gap:28px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:820px){.split{grid-template-columns:1fr}}
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:6px}
+@media (max-width:560px){.phases{grid-template-columns:1fr}}
+.phase{background:var(--chip);border-radius:8px;padding:12px 14px;font-size:.95rem}
+.phase b{display:block;font-family:var(--display);color:var(--accent);font-size:1.05rem}
+ul.list{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+ul.list li{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:12px;font-size:.97rem}
+ul.list .when{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.9rem;padding-top:1px}
+@media (max-width:520px){ul.list li{grid-template-columns:1fr;gap:0}}
+.compact-stack{display:grid;gap:14px}
+.compact-stack .callout{padding:14px 20px;gap:8px}
+.compact-stack ul.list{gap:4px}
+.compact-stack ul.list li{grid-template-columns:5.5rem minmax(0,1fr);gap:10px;line-height:1.45}
+.funding{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.fund{border-top:3px solid var(--accent-2);padding-top:8px}
+.fund .amt{font-family:var(--display);font-size:1.5rem;color:var(--fg);font-variant-numeric:tabular-nums}
+.fund .src{font-size:.88rem;color:var(--muted)}
+.callout{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:grid;gap:12px;align-content:start}
+footer{margin-top:56px;border-top:1px solid var(--line);background:var(--surface)}
+footer .wrap{padding-block:24px;color:var(--muted);font-size:.9rem}
+
+/* lightbox */
+.lb[hidden]{display:none!important}
+.lb{position:fixed;inset:0;z-index:20;background:rgba(10,18,20,.88);display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;color:#fff;gap:12px;padding-bottom:10px}
+.lb-bar .t{font-weight:600}
+.lb-bar button{font:600 .95rem var(--body);color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:6px;padding:6px 12px;cursor:pointer}
+.lb-pages{flex:1;overflow:auto;display:grid;justify-items:center;gap:16px;align-content:start}
+.lb-pages img{max-width:min(100%,900px);height:auto;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+@media (prefers-reduced-motion:no-preference){.item{transition:border-color .15s}.item:hover{border-color:var(--accent-2)}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="eyebrow">Portfolio</span>
+    <div class="name-row"><h1>Ann Gettys</h1><button class="btn btn-cv" type="button" data-pages="cv" data-title="Curriculum Vitae">View CV</button></div>
+    <div class="role">Doctoral Candidate, Learning Experience Design and Technology · University of Oklahoma</div>
+    <p class="intro">I design learning experiences for people who have to learn under pressure. My research focuses on improving health literacy and shared decision-making for families of children with rare disease, using learning design, multimedia, and AI.</p>
+    <div class="contact">
+      <code id="email">ann.gettys@ou.edu</code>
+      <button class="btn" id="copy" type="button">Copy email</button>
+    </div>
+  </div>
+</header>
+
+<nav class="sections" aria-label="Sections">
+  <div class="wrap">
+    <a href="#research">Research</a>
+    <a href="#patient-education">Patient and health education</a>
+    <a href="#multimedia">Multimedia design</a>
+    <a href="#teaching">Teaching</a>
+  </div>
+</nav>
+
+<main>
+<section id="philosophy">
+  <div class="wrap">
+    <article class="item">
+      <div class="body"><span class="meta">Statement</span><h3>Teaching philosophy</h3><p>I want to help people become lifelong learners who are curious, ask good questions, and keep looking for answers long after a course or instructor interaction ends.</p>
+        <div class="links"><a class="btn" href="teaching-philosophy.html">Read the statement</a></div></div>
+    </article>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div><span class="eyebrow">Research</span><h2>Caregiver learning under stress</h2></div>
+    <div class="split">
+      <div style="display:grid;gap:14px">
+        <h3>Multidimensional Caregiver Learning Model (MCLM)</h3>
+        <p>MCLM explains how parents of children with rare lung disease learn complex medical content under chronic stress and medical uncertainty. It treats parents as knowledge producers, not passive recipients of information, and describes nonlinear movement among three phases: acute crisis, emergent competency development, and consolidated expertise.</p>
+        <h3 style="margin-top:10px">AI-enabled caregiver education</h3>
+        <p>As Principal Investigator on a 2026 NSF ART InTRO scoping award, with co-PIs Dr. Jie Cao (Computer Science) and Dr. Mohammad Shams Ud Duha (Learning Technology), I worked with caregivers and physicians to define requirements for an AI-enabled mobile learning app. The approach pairs literacy-responsive multimedia materials with retrieval-augmented generation grounded in reviewed education content.</p>
+      </div>
+      <div class="callout">
+        <span class="eyebrow">External funding as PI or project lead</span>
+        <div class="funding">
+          <div class="fund"><div class="amt">$400,000</div><div class="src">Chan Zuckerberg Initiative, 2023 to 2026</div></div>
+          <div class="fund"><div class="amt">$417,178</div><div class="src">Two PCORI Engagement Awards</div></div>
+          <div class="fund"><div class="amt">$138,447</div><div class="src">Canopy HealthTech, 2023</div></div>
+          <div class="fund"><div class="amt">$15,000</div><div class="src">NSF ART InTRO, 2026</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="compact-stack">
+      <div class="callout">
+        <h3>Selected presentations</h3>
+        <ul class="list">
+          <li><span class="when">Nov 2026</span><span>AECT International Convention, Chicago. <em>Multimodal RAG Architecture for Literacy-Adaptive Health Education in Rare Pediatric Lung Disease.</em></span></li>
+          <li><span class="when">Oct 2026</span><span>Pediatric Rare Disease Summit, Boston. Poster: <em>Bridging Families and Science: Patient-Identified Comparative Effectiveness Research Priorities Across the chILD Care Journey.</em></span></li>
+          <li><span class="when">May 2026</span><span>American Thoracic Society, International chILD Special Interest Group (virtual). <em>Building Capacity for Patient-Centered CER in Rare Lung Disease.</em></span></li>
+          <li><span class="when">Apr 2026</span><span>OU Graduate Student Research Symposium. <em>Adaptive Caregiver Learning Under Stress (ACLUS): A Theoretical Framework for Rare Disease Parent Education.</em></span></li>
+          <li><span class="when">May 2025</span><span>Chan Zuckerberg Initiative Rare As One Meeting, Las Vegas. Poster: <em>Perceived Barriers and Benefits to Participation in Research in the chILD Community.</em></span></li>
+          <li><span class="when">Mar 2025</span><span>OU DISC Inaugural Data Science Symposium. Best Poster Award.</span></li>
+        </ul>
+      </div>
+      <div class="callout">
+        <h3>Publications</h3>
+        <ul class="list">
+          <li><span class="when">2026</span><span>McGraw, M. D., ... Gettys, A., ... Wambach, J. A. An update to the classification, evaluation, and management of childhood interstitial lung disease in infancy: An official ATS clinical practice guideline. <em>AJRCCM</em>, 212(10). <a href="https://doi.org/10.1093/ajrccm/aamag375" target="_blank" rel="noopener">DOI</a></span></li>
+          <li><span class="when">2019</span><span>Hayes, D., Jr., ... Gettys, A., & Deterding, R. R. Home oxygen therapy for children: An official ATS clinical practice guideline. <em>AJRCCM</em>, 199(3). <a href="https://doi.org/10.1164/rccm.201812-2276ST" target="_blank" rel="noopener">DOI</a></span></li>
+          <li><span class="when">2019</span><span>Sockrider, M., ... & Gettys, A. Oxygen therapy for children (patient education). <em>AJRCCM</em>, 199(3). <a href="https://doi.org/10.1164/rccm.1993P5" target="_blank" rel="noopener">DOI</a></span></li>
+          <li><span class="when">2010</span><span>McDougal, J., Gettys, A., & Hagood, J. S. chILD family education. <em>Pediatric Allergy, Immunology, and Pulmonology</em>, 23(1). <a href="https://doi.org/10.1089/ped.2010.0005" target="_blank" rel="noopener">DOI</a></span></li>
+          <li><span class="when">Patents</span><span>Overnight Pediatric Oxygen Delivery (OPOD) System, U.S. Patent Nos. 8,397,725 and 9,022,034.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="patient-education">
+  <div class="wrap">
+    <div><span class="eyebrow">Patient and health education</span><h2>Learning materials for families</h2></div>
+    <p class="lead">For more than twenty years I have worked in patient outreach and education for families living with children's interstitial and diffuse lung disease (chILD). These samples show plain-language print, video, and online lesson design.</p>
+    <div class="grid">
+      <article class="item">
+        <button class="thumbbtn" type="button" data-pages="iph" data-title="Patient Education Series: IPH"><img class="thumb page" src="media/iph-1.jpg" alt="First page of the Idiopathic Pulmonary Hemosiderosis brochure"></button>
+        <div class="body"><span class="meta">Patient Education Series</span><h3>Idiopathic Pulmonary Hemosiderosis</h3><p>Two-page family brochure. I coordinate the series' development and professional review for the chILD Foundation; physician authors write and specialists review each title.</p></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-pages="nehi" data-title="Patient Education Series: NEHI"><img class="thumb page" src="media/nehi-1.jpg" alt="First page of the Neuroendocrine Hyperplasia of Infancy brochure"></button>
+        <div class="body"><span class="meta">Patient Education Series</span><h3>Neuroendocrine Hyperplasia of Infancy</h3><p>A sample from a series of more than 150 patient education modules covering life with different forms of chILD, now in professional review.</p></div>
+      </article>
+      <article class="item">
+        <video controls preload="none" poster="media/how-we-breathe-poster.jpg" src="media/how-we-breathe.mp4"></video>
+        <div class="body"><span class="meta">Online lesson video, EIPT 6313</span><h3>How We Breathe</h3><p>Animated lesson introducing breathing and the alveolus, built for an online module on lung development and surfactant.</p></div>
+      </article>
+      <article class="item">
+        <video controls preload="none" poster="media/surface-tension-poster.jpg" src="media/surface-tension.mp4"></video>
+        <div class="body"><span class="meta">Online lesson video, EIPT 6313</span><h3>Surface Tension</h3><p>Second video in the module, explaining surface tension in the lungs and why surfactant matters.</p></div>
+      </article>
+      <article class="item">
+        <a href="spc-sp-c-deficiency-overview.html"><img class="thumb page" src="media/spc-thumb.jpg" alt="Course overview page for What Is Pulmonary Surfactant C (SP-C) Deficiency?"></a>
+        <div class="body"><span class="meta">Online patient education course, Canvas</span><h3>What Is Pulmonary Surfactant C (SP-C) Deficiency?</h3><p>A Canvas course for families on how the lungs work and on SP-C deficiency, with lesson videos and illustrated pages.</p>
+          <div class="links"><a class="btn" href="spc-sp-c-deficiency-overview.html">Open the course</a></div></div>
+      </article>
+      <article class="item">
+        <div class="body"><span class="meta">Websites</span>
+          <h3>chILD Foundation</h3><p>I developed the chILD Foundation's new website, which brings family education resources together for families and clinicians.</p>
+          <div class="links"><a class="btn" href="https://www.child-foundation.org" target="_blank" rel="noopener">Visit child-foundation.org</a></div>
+          <h3 style="margin-top:18px;padding-top:16px;border-top:1px solid var(--line)">Pediatric Oxygen Concepts</h3><p>Company website for Pediatric Oxygen Concepts, which develops oxygen delivery products designed for children, including the OPOD system.</p>
+          <div class="links"><a class="btn" href="https://www.pediatric02concepts.com/" target="_blank" rel="noopener">Visit pediatric02concepts.com</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="multimedia">
+  <div class="wrap">
+    <div><span class="eyebrow">Multimedia design</span><h2>Visual literacy and digital development</h2></div>
+    <p class="lead">Projects from EIPT 6523, Visual Literacy and Digital Development, covering image editing, composition, motion, sound, and color.</p>
+
+    <article class="item">
+      <div class="body"><span class="meta">Image editing</span><h3>Image series</h3><p>One photograph developed five ways in Photoshop: the original, cross-processing, glowing edges, posterization, and a black-and-white background treatment.</p></div>
+      <div class="strip" style="padding:0 18px 18px">
+        <figure><button class="thumbbtn" type="button" data-img="media/series-original.jpg" data-title="Original"><img class="thumb" src="media/series-original.jpg" alt="Original photograph of figs and pears"></button><figcaption>Original</figcaption></figure>
+        <figure><button class="thumbbtn" type="button" data-img="media/series-cross.jpg" data-title="Cross process"><img class="thumb" src="media/series-cross.jpg" alt="Cross-processed version"></button><figcaption>Cross process</figcaption></figure>
+        <figure><button class="thumbbtn" type="button" data-img="media/series-glow.jpg" data-title="Glowing edges"><img class="thumb" src="media/series-glow.jpg" alt="Glowing edges version"></button><figcaption>Glowing edges</figcaption></figure>
+        <figure><button class="thumbbtn" type="button" data-img="media/series-poster.jpg" data-title="Posterized"><img class="thumb" src="media/series-poster.jpg" alt="Posterized version"></button><figcaption>Posterized</figcaption></figure>
+        <figure><button class="thumbbtn" type="button" data-img="media/series-bw.jpg" data-title="Black and white background"><img class="thumb" src="media/series-bw.jpg" alt="Black and white background version"></button><figcaption>Black and white background</figcaption></figure>
+      </div>
+    </article>
+
+    <div class="grid">
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/background-fish.jpg" data-title="Background replacement"><img class="thumb" src="media/background-fish.jpg" alt="Goldfish composited into a glass of water"></button>
+        <div class="body"><span class="meta">Compositing</span><h3>Background replacement</h3><p>A subject isolated and placed into a new scene.</p>
+          <div class="links"><button class="btn" type="button" data-imgs="media/bg-src-fish.jpg,media/bg-src-glass.jpg" data-title="Background replacement: original images">View original images</button></div></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/collage.jpg" data-title="Collage"><img class="thumb" src="media/collage.jpg" alt="Photo collage of a fawn by a caution sign in a meadow"></button>
+        <div class="body"><span class="meta">Compositing</span><h3>Collage</h3><p>Multiple source images blended into one scene with matched light and scale.</p>
+          <div class="links"><button class="btn" type="button" data-imgs="media/collage-src-fawn.jpg,media/collage-src-fawn2.jpg,media/collage-src-rabbit.jpg,media/collage-src-squirrel.jpg,media/collage-src-sign.jpg,media/collage-src-deer-sign.jpg" data-title="Collage: original images">View original images</button></div></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/animation.gif" data-title="Animation"><img class="thumb" src="media/animation.gif" alt="Frame animation" loading="lazy"></button>
+        <div class="body"><span class="meta">Motion</span><h3>Frame animation</h3><p>A short animation built frame by frame in Photoshop.</p></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/gestalt.gif" data-title="Gestalt"><img class="thumb" src="media/gestalt.gif" alt="Animated Gestalt perception demonstration" loading="lazy"></button>
+        <div class="body"><span class="meta">Motion</span><h3>Gestalt principles</h3><p>An animated demonstration of how the eye groups shapes into a whole.</p></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/cinemagraph-anim.gif" data-title="Cinemagraph"><img class="thumb" src="media/cinemagraph-anim.gif" alt="Pinwheel cinemagraph" loading="lazy"></button>
+        <div class="body"><span class="meta">Motion</span><h3>Cinemagraph</h3><p>A still image with a single looping motion, a spinning pinwheel.</p></div>
+      </article>
+      <article class="item">
+        <button class="thumbbtn" type="button" data-img="media/colorwheel.jpg" data-title="Color Theory"><img class="thumb" src="media/colorwheel.jpg" alt="Color Theory title slide"></button>
+        <div class="body"><span class="meta">Color</span><h3>Color theory</h3><p>Narrated project on primary, secondary, and tertiary colors and how color choices shape meaning.</p>
+          <div class="links"><a class="btn" href="https://youtu.be/UnGwqU5yNgg" target="_blank" rel="noopener">Watch on YouTube</a></div></div>
+      </article>
+      <article class="item">
+        <div class="body"><span class="meta">Short video</span><h3>Oxygen Tips and Tricks</h3><p>A practical video for parents managing home oxygen: cannulas, tape and skin care, tubing, and keeping small hands away from equipment.</p>
+          <div class="links"><a class="btn" href="https://youtu.be/kMcMAyW8lBg" target="_blank" rel="noopener">Watch on YouTube</a></div></div>
+      </article>
+      <article class="item">
+        <div class="body"><span class="meta">Sound design</span><h3>Sound loop</h3><p>A seamless loop built from an original recording.</p><audio controls preload="none" src="media/sound-loop.mp3"></audio></div>
+      </article>
+      <article class="item">
+        <div class="body"><span class="meta">Sound design</span><h3>Multi-source sound</h3><p>A short scene layered from several recordings and effects in Adobe Audition.</p><audio controls preload="none" src="media/sound-multi.mp3"></audio></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="teaching">
+  <div class="wrap">
+    <div><h2>Teaching experience</h2></div>
+    <div>
+      <div class="callout">
+        <ul class="list">
+          <li><span class="when">2026 to 2027</span><span>Designing fully online Human Anatomy and Physiology I and II for OU's RN-to-BSN program, with OU Online Education. First offering Spring 2027.</span></li>
+          <li><span class="when">2026</span><span>Curriculum proposal with Dr. Cynthia Gordon for new in-person Human Anatomy and Physiology I and II courses for pre-nursing students, submitted August 2026.</span></li>
+          <li><span class="when">2026</span><span>Key personnel, NSF Award #2613951, developing HyFlex instructional materials for an integrated biomanufacturing module.</span></li>
+          <li><span class="when">2025, 2026</span><span>Instructor of record, BIOL 2124 Human Physiology, lecture and laboratory (summer).</span></li>
+          <li><span class="when">2024 to now</span><span>Instructor, Human Physiology laboratory, School of Biological Sciences.</span></li>
+          <li><span class="when">2022 to 2025</span><span>Gallogly College of Engineering: Assistant Director of Data Projects and Senior Academic Advisor for Biomedical, Chemical, and Industrial and Systems Engineering majors (2022 to 2024), then data services contractor building a database and Power BI interface to track student metrics and program outcomes (2024 to 2025).</span></li>
+          <li><span class="when">2021 to 2022</span><span>Laboratory Instructor, BIOL 2255 Human Anatomy, cadaver-based laboratory sections.</span></li>
+          <li><span class="when">2006 to 2014</span><span>Academic Advisor for Zoology majors; member of the Premedical Interview Committee, mentoring students on personal statements and applications.</span></li>
+          <li><span class="when">2008 to 2013</span><span>Instructor and laboratory coordinator, ZOO/BIOL 3101 Principles of Physiology Laboratory.</span></li>
+          <li><span class="when">2007 to 2013</span><span>Lecturer, ZOO/BIOL 2124 Human Physiology, every fourth semester and summer sessions.</span></li>
+          <li><span class="when">2003 to 2013</span><span>Instructor and laboratory coordinator, Human Physiology. Helped develop a flipped, case-based version of the course and trained graduate teaching assistants.</span></li>
+          <li><span class="when">2000 to 2005</span><span>Graduate and undergraduate teaching assistant: Introductory Zoology Laboratory, Human Anatomy Laboratory (cadaver), Field Ecology, Medical Entomology, and Human Physiology.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<footer><div class="wrap">Ann Gettys · Doctoral Candidate, Learning Experience Design and Technology · University of Oklahoma · ann.gettys@ou.edu</div></footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lbt">
+  <div class="lb-bar"><span class="t" id="lbt"></span><button type="button" id="lbclose">Close</button></div>
+  <div class="lb-pages" id="lbpages"></div>
+</div>
+
+<script>
+const PAGES={cv:5,iph:2,nehi:2,lesson13:3,lesson14:3,scaffold:6};
+const lb=document.getElementById('lb'),lbp=document.getElementById('lbpages'),lbt=document.getElementById('lbt');
+let lastFocus=null;
+function openLB(title,srcs,start){
+  lastFocus=document.activeElement;
+  lbt.textContent=title; lbp.innerHTML='';
+  srcs.forEach((s,i)=>{const im=document.createElement('img');im.src=s;im.alt=title+(srcs.length>1?' '+(i+1):'');lbp.appendChild(im);});
+  lb.hidden=false; document.body.style.overflow='hidden';
+  document.getElementById('lbclose').focus();
+  if(start){requestAnimationFrame(()=>{const t=lbp.children[start];if(t)t.scrollIntoView();});}
+}
+function closeLB(){lb.hidden=true;document.body.style.overflow='';lbp.innerHTML='';if(lastFocus)lastFocus.focus();}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-pages],[data-img],[data-imgs]'); if(!b)return;
+  if(b.dataset.img){openLB(b.dataset.title,[b.dataset.img],0);return;}
+  if(b.dataset.imgs){openLB(b.dataset.title,b.dataset.imgs.split(','),0);return;}
+  const k=b.dataset.pages,n=PAGES[k]; const srcs=[];for(let i=1;i<=n;i++)srcs.push('media/'+k+'-'+i+'.jpg');
+  openLB(b.dataset.title,srcs,+(b.dataset.start||0));
+});
+document.getElementById('lbclose').addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb||e.target===lbp)closeLB();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!lb.hidden)closeLB();});
+document.getElementById('copy').addEventListener('click',async e=>{
+  const btn=e.currentTarget;
+  try{await navigator.clipboard.writeText('ann.gettys@ou.edu');btn.textContent='Copied';}
+  catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('email'));const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='Selected';}
+  setTimeout(()=>btn.textContent='Copy email',1800);
+});
+const links=[...document.querySelectorAll('nav.sections a')];
+const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(a=>a.setAttribute('aria-current',a.getAttribute('href')==='#'+en.target.id?'true':'false'));}})},{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('main section').forEach(s=>io.observe(s));
+</script>
